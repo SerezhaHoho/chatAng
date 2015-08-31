@@ -24,7 +24,7 @@
         this.sendMessage = function (message, user) {
             var newMessage = new Message(message, user);
 
-            $http.post(serverConstants.serverUrl, newMessage.toString(), {
+            $http.post(serverConstants.serverUrl, newMessage.toString, {
                 headers: {
                     'Content-Type': 'text/plain;charset=UTF-8'
                 }

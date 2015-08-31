@@ -9,7 +9,10 @@
         };
 
         self.auth = function (userName) {
-            userService.authorize(userName);
+            if (userName) {
+                userService.authorize(userName);
+            }
+
             self.userName = '';
         };
 
