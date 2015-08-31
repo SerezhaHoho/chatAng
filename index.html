@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html data-ng-app="exl-chat">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>chatAng</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="stylesheet" href="styles/autocomplete.css">
+</head>
+<body>
+<section class="container-fluid">
+    <section data-ng-controller="chatUserAuthCtrl as cua">
+        <section data-ng-if="!cua.isCurrentUserExists()">
+            <section class="ion-ios-personadd"></section>
+            <input type="text" data-ng-model="cua.userName"/>
+            <button data-ng-click="cua.auth(cua.userName)">Add user</button>
+        </section>
+        <section data-ng-controller="chatHistoryCtrl as ch" data-ng-if="cua.isCurrentUserExists()">
+            <section>
+                <input type="text" data-ng-model="ch.searchQuery.text" />
+                <input type="text" data-ng-model="ch.searchQuery.user.name" />
+            </section>
+            <section class="row">
+                <section class="col-xs-1">
+                    <section>
+                        <span class="ion-ios-person"></span>
+                    </section>
+                    <section>{{ch.user.name}}</section>
+                </section>
+                <section class="col-xs-11">
+                    <input type="text" data-ng-model="ch.message" />
+                    <button data-ng-click="ch.send(ch.message, ch.user)">Send</button>
+                </section>
+            </section>
+            <section data-ng-repeat="message in ch.messagesHistory | filter:ch.searchQuery"
+                     data-ng-show="message.isVisible">
+                <section class="col-sm-1">
+                    <span class="ion-ios-person"></span>
+                </section>
+                <section class="col-sm-10">
+                    <span>{{message.user.name}}</span>
+                    <span>{{message.date}}</span>
+                    <section data-ng-bind-html="message.text | highlighter:ch.searchQuery.text">
+                        {{message.text}}
+                    </section>
+                </section>
+                <section class="col-sm-1">
+                    <button data-ng-click="ch.clearHistory()">Очистить историю</button>
+                    <button data-ng-click="ch.quoteMessage(message.user.name, message.date, message.text)">Цитировать сообщение</button>
+                    <button data-ng-click="message.isVisible = false">Спрятать сообщение</button>
+                    <button data-ng-click="ch.hideUserMessages(message.user.name)">Спрятать все сообщения пользователя</button>
+                </section>
+            </section>
+            <section>{{ch.getDictionary}}</section>
+        </section>
+    </section>
+</section>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.js"></script>
+<script type="text/javascript" src="js/vendor/autocomplete.js"></script>
+<script type="text/javascript" src="js/app.js"></script>
+<script type="text/javascript" src="js/constants/constants.js"></script>s
+<script type="text/javascript" src="js/controllers/chat-user.js"></script>
+<script type="text/javascript" src="js/controllers/chat-history.js"></script>
+<script type="text/javascript" src="js/filters/words-filter.js"></script>
+<script type="text/javascript" src="js/services/chat-service.js"></script>
+<script type="text/javascript" src="js/services/user-service.js"></script>
+</body>
+</html>
