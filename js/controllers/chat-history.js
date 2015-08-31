@@ -10,11 +10,14 @@
 
         Object.defineProperty(this, 'getDictionary', {
             get: function () {
-                var regExp = /\s+/,
-                    autocompleteDictionary = [];
+                var regExp = /\w+/g,
+                    autocompleteDictionary = [],
+                    newArray = [];
 
                 self.messagesHistory.forEach(function (message) {
-                    ng.extend(autocompleteDictionary, message.text.split(regExp));
+                    newArray = message.text.match(regExp);
+
+                    autocompleteDictionary = autocompleteDictionary.concat(newArray);
                 });
 
                 return autocompleteDictionary;
