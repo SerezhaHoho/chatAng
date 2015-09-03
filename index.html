@@ -42,7 +42,7 @@
                            class="exl-input" />
                 </section>
             </section>
-            <section class="exl-history" scroll-bottom="ch.messagesHistory">
+            <section class="exl-history" data-scroll-bottom data-messages="ch.messagesHistory">
                 <section data-ng-repeat="message in ch.messagesHistory | filter:ch.searchQuery"
                          data-ng-show="message.isVisible"
                          class="exl-message row clearfix">
