@@ -1,33 +1,22 @@
 (function (ng) {
     'use strict';
 
-    function ChatHistoryCtrl(userService, chatService) {
+    function ChatHistoryCtrl(userService, chatService, wordsDictionary, _) {
         var self = this;
 
         self.messagesHistory = chatService.getMessages();
 
         self.user = userService.currentUser();
 
-        Object.defineProperty(this, 'getDictionary', {
-            get: function () {
-                var regExp = /\s+/,
-                    autocompleteDictionary = [];
-
-                self.messagesHistory.forEach(function (message) {
-                    ng.extend(autocompleteDictionary, message.text.split(regExp));
-                });
-
-                return autocompleteDictionary;
-            }
-        });
+        self.dictionary = wordsDictionary;
 
         self.isCurrentUserExists = function () {
             return userService.isCurrentUserExists();
         };
 
-        self.send = function (message, user) {
+        self.send = function (message, user, id) {
             if (message) {
-                chatService.sendMessage(message, user);
+                chatService.sendMessage(message, user, id);
             }
 
             self.message = '';
@@ -47,5 +36,5 @@
     }
 
     ng.module('exl-chat')
-        .controller('chatHistoryCtrl', ['userService', 'chatService', ChatHistoryCtrl]);
+        .controller('chatHistoryCtrl', ['userService', 'chatService', 'wordsDictionary', 'utils', ChatHistoryCtrl]);
 })(angular);

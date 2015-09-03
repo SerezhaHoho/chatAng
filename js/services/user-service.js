@@ -3,7 +3,7 @@
 
     function User(name) {
         this.name = name;
-        this.id = Math.round(Math.random() * (new Date));
+        this.id = (Math.round(Math.random() * (new Date))).toString();
     }
 
     function UserService() {
