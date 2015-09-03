@@ -15,48 +15,103 @@
 <body>
 <section class="container-fluid">
     <section data-ng-controller="chatUserAuthCtrl as cua">
-        <section data-ng-if="!cua.isCurrentUserExists()">
-            <section class="ion-ios-personadd"></section>
-            <input type="text" data-ng-model="cua.userName"/>
-            <button data-ng-click="cua.auth(cua.userName)">Add user</button>
+        <section data-ng-if="!cua.isCurrentUserExists()" class="exl-auth-form text-center exl-va-table">
+            <section class="exl-va-cell exl-blackout">
+                <section class="exl-add-user-icon">
+                    <span class="ion-ios-personadd"></span>
+                </section>
+                <section class="exl-logo">exlChat</section>
+                <input type="text" data-ng-model="cua.userName" placeholder="Type username"/>
+                <button data-ng-click="cua.auth(cua.userName)">Add user</button>
+            </section>
         </section>
         <section data-ng-controller="chatHistoryCtrl as ch" data-ng-if="cua.isCurrentUserExists()">
-            <section>
-                <input type="text" data-ng-model="ch.searchQuery.text" />
-                <input type="text" data-ng-model="ch.searchQuery.user.name" />
+            <section class="exl-header row">
+                <section class="col-md-offset-1 col-md-2 col-xs-6 exl-header-logo">exlChat</section>
+                <section class="col-md-8 text-right exl-search">
+                    <button data-ng-click="ch.clearHistory()"
+                            class="ion-ios-trash exl-trash-icon">
+                    </button>
+                    <input type="text"
+                           data-ng-model="ch.searchQuery.text"
+                           placeholder="Text filter"
+                           class="exl-input" />
+                    <input type="text"
+                           data-ng-model="ch.searchQuery.user"
+                           placeholder="User name filter"
+                           class="exl-input" />
+                </section>
             </section>
-            <section class="row">
-                <section class="col-xs-1">
+            <section class="exl-history" scroll-bottom="ch.messagesHistory">
+                <section data-ng-repeat="message in ch.messagesHistory | filter:ch.searchQuery"
+                         data-ng-show="message.isVisible"
+                         class="exl-message row clearfix">
+                    <section class="col-md-offset-1 col-md-1 col-xs-2">
+                        <span class="ion-ios-person exl-icon"></span>
+                    </section>
+                    <section class="col-xs-8 exl-message-body">
+                        <span class="exl-triangle"></span>
+                        <span class="exl-user-name">{{message.user}}</span>
+                        <span class="exl-date">{{message.date}}</span>
+                        <section data-ng-bind-html="message.text | highlighter:ch.searchQuery.text">
+                            {{message.text}}
+                        </section>
+                    </section>
+                    <section class="col-md-1 col-xs-2">
+                        <div class="dropdown pull-right">
+                            <button id="dLabel" class="exl-dropdown-button" type="button" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                <span class="ion-ios-gear-outline"></span>
+                            </button>
+                            <ul class="dropdown-menu pull-left" aria-labelledby="dLabel">
+                                <li>
+                                    <button data-ng-click="ch.quoteMessage(message.user, message.date, message.text)"
+                                            class="exl-dropdown-item">
+                                        Quote message
+                                    </button>
+                                </li>
+                                <li>
+                                    <button data-ng-click="message.isVisible = false"
+                                            class="exl-dropdown-item">
+                                        Hide message
+                                    </button>
+                                </li>
+                                <li>
+                                    <button data-ng-click="ch.hideUserMessages(message.user)"
+                                            class="exl-dropdown-item">
+                                        Hide all messages of this user
+                                    </button>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </section>
+            </section>
+            <section class="row exl-message-box">
+                <section class="col-md-offset-1 col-md-1 col-xs-2">
                     <section>
-                        <span class="ion-ios-person"></span>
+                        <span class="ion-ios-person exl-icon"></span>
                     </section>
                     <section>{{ch.user.name}}</section>
                 </section>
-                <section class="col-xs-11">
-                    <input type="text" data-ng-model="ch.message" />
-                    <button data-ng-click="ch.send(ch.message, ch.user)">Send</button>
-                </section>
-            </section>
-            <section data-ng-repeat="message in ch.messagesHistory | filter:ch.searchQuery"
-                     data-ng-show="message.isVisible">
-                <section class="col-sm-1">
-                    <span class="ion-ios-person"></span>
-                </section>
-                <section class="col-sm-10">
-                    <span>{{message.user.name}}</span>
-                    <span>{{message.date}}</span>
-                    <section data-ng-bind-html="message.text | highlighter:ch.searchQuery.text">
-                        {{message.text}}
+                <section class="col-md-9 col-xs-10">
+                    <section class="row exl-autocomplete-wrapper">
+                        <section class="col-xs-9">
+                            <autocomplete data="ch.dictionary"
+                                          attr-placeholder="Type your message"
+                                          data-ng-model="ch.message"
+                                          class="exl-autocomplete">
+                            </autocomplete>
+                        </section>
+                        <section class="col-xs-3">
+                            <button data-ng-click="ch.send(ch.message, ch.user.name, ch.user.id)"
+                                    class="exl-send-button">
+                                Send
+                            </button>
+                        </section>
                     </section>
                 </section>
-                <section class="col-sm-1">
-                    <button data-ng-click="ch.clearHistory()">Очистить историю</button>
-                    <button data-ng-click="ch.quoteMessage(message.user.name, message.date, message.text)">Цитировать сообщение</button>
-                    <button data-ng-click="message.isVisible = false">Спрятать сообщение</button>
-                    <button data-ng-click="ch.hideUserMessages(message.user.name)">Спрятать все сообщения пользователя</button>
-                </section>
             </section>
-            <section>{{ch.getDictionary}}</section>
         </section>
     </section>
 </section>
@@ -64,10 +119,14 @@
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.4.4/angular.js"></script>
 <script type="text/javascript" src="js/vendor/autocomplete.js"></script>
 <script type="text/javascript" src="js/app.js"></script>
-<script type="text/javascript" src="js/constants/constants.js"></script>s
+<script type="text/javascript" src="js/constants/constants.js"></script>
+<script type="text/javascript" src="js/services/autocomplete-dictionary-value.js"></script>
+<script type="text/javascript" src="js/services/utils-factory.js"></script>
+<script type="text/javascript" src="js/services/message-factory.js"></script>
 <script type="text/javascript" src="js/controllers/chat-user.js"></script>
 <script type="text/javascript" src="js/controllers/chat-history.js"></script>
 <script type="text/javascript" src="js/filters/words-filter.js"></script>
+<script type="text/javascript" src="js/directives/scroll-bottom-directive.js"></script>
 <script type="text/javascript" src="js/services/chat-service.js"></script>
 <script type="text/javascript" src="js/services/user-service.js"></script>
 </body>

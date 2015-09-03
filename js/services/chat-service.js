@@ -1,35 +1,24 @@
 (function (ng) {
     'use strict';
 
-    function Message(text, user, userId) {
-        this.text = text;
-        this.date = new Date();
-        this.userName = user.name;
-        this.userId = user.id || userId;
-        this.isVisible = true;
-    }
-
-    Message.prototype.toString = function () {
-        return JSON.stringify(this, ['text', 'userName', 'userId']);
-    };
-
-    Message.toMessage = function (data) {
-        return new Message(data.text, data.user, data.id);
-    };
-
-    function ChatService($http, serverConstants) {
+    function ChatService($http, serverConstants, wordsDictionary, messageFactory, _) {
         var messages = [],
             token = serverConstants.startToken;
 
-        this.sendMessage = function (message, user) {
-            var newMessage = new Message(message, user);
+        this.sendMessage = function (message, user, id) {
+            var newMessage = messageFactory.createMessage(message, user, id);
 
-            $http.post(serverConstants.serverUrl, newMessage.toString, {
+            $http.post(serverConstants.serverUrl, newMessage.toString(), {
                 headers: {
                     'Content-Type': 'text/plain;charset=UTF-8'
                 }
             }).then(function () {
+                var words = _.words(newMessage.text);
+                var uniqueWords = _.uniq(words);
+                uniqueWords = _.diff(uniqueWords, wordsDictionary);
+
                 messages.push(newMessage);
+                wordsDictionary.push(uniqueWords);
             }).catch(function (err) {
                 console.error(err);
             });
@@ -44,9 +33,16 @@
             }).then(function (result) {
                 var storedMessages = result.data.messages;
                 token = result.data.token;
-                storedMessages = storedMessages.map(Message.toMessage);
+                storedMessages = storedMessages.map(function (msg) {
+                    return messageFactory.createMessage(msg.text, msg.user, msg.id);
+                });
+
+                var words = _.words(storedMessages.reduce(function (text, message) {
+                    return text + ' ' + message.text;
+                }, ''));
 
                 messages.push.apply(messages, storedMessages);
+                wordsDictionary.push.apply(wordsDictionary, _.uniq(words));
             }).catch(function (err) {
                 console.error(err);
             });
@@ -61,7 +57,7 @@
         this.hideUserMessagesFromHistory = function (userName) {
 
             messages.forEach(function (message) {
-                if (message.userName === userName) {
+                if (message.user === userName) {
                     message.isVisible = false;
                 }
             });
@@ -70,5 +66,5 @@
     }
 
     ng.module('exl-chat')
-        .service('chatService', ['$http', 'serverConstants', ChatService]);
+        .service('chatService', ['$http', 'serverConstants', 'wordsDictionary', 'messageFactory', 'utils', ChatService]);
 })(angular);

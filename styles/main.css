@@ -1,3 +1,310 @@
-.highlighted {
-    background: yellow;
+/* Basic styles */
+@font-face {
+    font-family: cocomat;
+    src: url(../public/fonts/cocomat.light.ttf);
+}
+
+input, button {
+    border: none;
+    border-radius: 50px;
+    font-size: 1.7rem;
+    padding: 5px 15px;
+}
+
+body {
+    font-size: 1.7rem;
+    color: #646464;
+    background: #ECECEC;
+}
+
+input {
+    background: rgba(255, 255, 255, .8);
+}
+
+input:focus {
+    background: rgba(255, 255, 255, 1);
+}
+
+button {
+    color: #ffffff;
+    background: rgba(255, 168, 87, .8);
+}
+
+button:hover, button:focus {
+    background: rgba(255, 168, 87, 1);
+}
+
+.exl-va-table {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+.exl-va-cell {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.exl-icon {
+    font-size: 3rem;
+}
+
+.exl-input {
+    font-size: 1.7rem;
+    padding: 5px 20px;
+    border: 2px solid #c3c3c3;
+}
+
+/* Auth form */
+.exl-logo {
+    font-family: "cocomat", "Helvetica Neue", Arial, sans-serif;
+    color: #FFA857;
+    font-size: 6rem;
+    margin-bottom: 15px;
+}
+
+.exl-auth-form {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: url("../public/images/auth.jpg");
+    -webkit-animation: exl-animate-background 40s linear 0s infinite;
+    -moz-animation: exl-animate-background 40s linear 0s infinite;
+    -o-animation: exl-animate-background 40s linear 0s infinite;
+    animation: exl-animate-background 40s linear 0s infinite;
+    background-size: 100%;
+    background-position: center center;
+}
+
+.exl-blackout {
+    background-color: rgba(0, 0, 0, .4);
+}
+
+.exl-add-user-icon {
+    font-size: 5.5rem;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    height: 100px;
+    width: 100px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.exl-add-user-icon .ion-ios-personadd {
+    width: 100%;
+    height: 100%;
+    display: table;
+}
+
+.exl-add-user-icon .ion-ios-personadd:before {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+/* Background animations */
+@-webkit-keyframes exl-animate-background {
+    25% {
+        background-size: 110%;
+    }
+    50% {
+        background-size: 120%;
+    }
+    75% {
+        background-size: 110%;
+    }
+    100% {
+        background-size: 100%;
+    }
+}
+
+@-moz-keyframes exl-animate-background {
+    25% {
+        background-size: 110%;
+    }
+    50% {
+        background-size: 120%;
+    }
+    75% {
+        background-size: 110%;
+    }
+    100% {
+        background-size: 100%;
+    }
+}
+
+@-o-keyframes exl-animate-background {
+    25% {
+        background-size: 110%;
+    }
+    50% {
+        background-size: 120%;
+    }
+    75% {
+        background-size: 110%;
+    }
+    100% {
+        background-size: 100%;
+    }
+}
+
+@keyframes exl-animate-background {
+    25% {
+        background-size: 110%;
+    }
+    50% {
+        background-size: 120%;
+    }
+    75% {
+        background-size: 110%;
+    }
+    100% {
+        background-size: 100%;
+    }
+}
+
+/* Message box */
+.exl-message-box, .exl-header {
+    position: fixed;
+    left: 0;
+    right: 0;
+    background-color: rgba(255, 255, 255, .9);
+    z-index: 999;
+}
+
+.exl-message-box {
+    bottom: 0;
+    padding: 5px 0;
+    -webkit-box-shadow: 0 -3px 20px 0 rgba(85, 85, 85, 0.15);
+    -moz-box-shadow: 0 -3px 20px 0 rgba(85, 85, 85, 0.15);
+    box-shadow: 0 -3px 20px 0 rgba(85, 85, 85, 0.15);
+}
+
+.exl-send-button {
+    width: 100%;
+    text-align: center;
+    background: #FFA857;
+    border: 2px solid #FFA857;
+}
+
+.exl-send-button:hover, .exl-send-button:focus {
+    background: #e1934e;
+    border: 2px solid #e1934e;
+}
+
+.exl-autocomplete-wrapper {
+    margin-top: 15px;
+}
+
+/* Header */
+.exl-header-logo {
+    font-family: "cocomat", "Helvetica Neue", Arial, sans-serif;
+    color: #FFA857;
+    font-size: 3rem;
+}
+
+.exl-header {
+    top: 0;
+    padding: 10px 0;
+    -webkit-box-shadow: 0 3px 20px 0 rgba(85, 85, 85, 0.15);
+    -moz-box-shadow: 0 3px 20px 0 rgba(85, 85, 85, 0.15);
+    box-shadow: 0 3px 20px 0 rgba(85, 85, 85, 0.15);
+}
+
+.exl-trash-icon {
+    border-radius: 50%;
+    font-size: 2rem;
+}
+
+/* History */
+.exl-history {
+    height: 100vh;
+    overflow: auto;
+    padding: 80px 0;
+}
+
+.exl-user-name, .exl-date {
+    font-size: 1.5rem;
+}
+
+.exl-user-name {
+    font-weight: bold;
+}
+
+.exl-date {
+    color: #a3a3a3;
+}
+
+.exl-dropdown-button {
+    border-radius: 50%;
+    font-size: 2.5rem;
+}
+
+.exl-message-body {
+    border-radius: 50px;
+    background: #ffffff;
+    padding: 10px 40px;
+}
+
+.exl-message {
+    margin-bottom: 15px;
+}
+
+.exl-triangle {
+    width: 0;
+    position: absolute;
+    height: 0;
+    border-style: solid;
+    border-width: 0 50px 50px 0;
+    border-color: transparent #ffffff transparent transparent;
+    left: -15px;
+    top: 0;
+}
+
+.exl-dropdown-item {
+    font-size: 1.5rem;
+    background: #ffffff;
+    color: #555555;
+    width: 100%;
+    text-align: left;
+}
+
+.exl-dropdown-item:hover {
+    border-radius: 0;
+    color: #ffffff;
+}
+
+/* Text highlight */
+.exl-highlighted {
+    background: #fffe00;
+}
+
+@media only screen and (max-width : 992px) {
+    .exl-input {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .exl-send-button {
+        padding: 5px 5px;
+    }
+
+    .exl-history {
+        padding: 180px 0 80px 0;
+    }
+
+    body, .exl-header, .exl-message-box {
+        padding: 10px 15px;
+    }
+
+    .exl-auth-form {
+        -webkit-animation: none;
+        -moz-animation: none;
+        -o-animation: none;
+        animation: none;
+        background-size: cover;
+        background-position: center right;
+    }
 }
