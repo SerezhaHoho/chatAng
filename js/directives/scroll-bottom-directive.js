@@ -4,10 +4,10 @@
     function scrollBottom() {
         return {
             scope: {
-                scrollBottom: "="
+                messages: "="
             },
             link: function (scope, element) {
-                scope.$watchCollection('scrollBottom', function (newValue) {
+                scope.$watchCollection('messages', function (newValue) {
                     if (newValue)
                     {
                         $(element).animate({scrollTop: $(element)[0].scrollHeight}, 1000);
