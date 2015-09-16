@@ -1,7 +1,9 @@
-(function (ng) {
-    'use strict';
+'use strict';
 
-    function ChatService($http, serverConstants, wordsDictionary, messageFactory, _) {
+var ng = require('angular');
+
+ng.module('exl-chat')
+    .service('chatService', ['$http', 'serverConstants', 'wordsDictionary', 'messageFactory', 'utils', function ($http, serverConstants, wordsDictionary, messageFactory, _) {
         var messages = [],
             token = serverConstants.startToken;
 
@@ -16,9 +18,10 @@
                 var words = _.words(newMessage.text);
                 var uniqueWords = _.uniq(words);
                 uniqueWords = _.diff(uniqueWords, wordsDictionary);
+                var formattedDictionary = _.toFormat(uniqueWords);
 
                 messages.push(newMessage);
-                wordsDictionary.push(uniqueWords);
+                wordsDictionary.push(formattedDictionary);
             }).catch(function (err) {
                 console.error(err);
             });
@@ -41,8 +44,10 @@
                     return text + ' ' + message.text;
                 }, ''));
 
+                var uniqueWords = _.uniq(words);
+
                 messages.push.apply(messages, storedMessages);
-                wordsDictionary.push.apply(wordsDictionary, _.uniq(words));
+                wordsDictionary.push.apply(wordsDictionary, _.toFormat(uniqueWords));
             }).catch(function (err) {
                 console.error(err);
             });
@@ -63,8 +68,4 @@
             });
         }
 
-    }
-
-    ng.module('exl-chat')
-        .service('chatService', ['$http', 'serverConstants', 'wordsDictionary', 'messageFactory', 'utils', ChatService]);
-})(angular);
+    }]);

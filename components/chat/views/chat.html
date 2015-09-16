@@ -1,0 +1,54 @@
+<section data-ng-controller="ChatController as chatController">
+    <section class="exl-header row">
+        <section class="col-md-offset-1 col-md-2 col-xs-6 exl-header-logo">exlChat</section>
+        <section class="col-md-8 text-right exl-search">
+            <button data-ng-click="chatController.clearHistory()"
+                    class="exl-trash-icon glyphicon glyphicon-trash">
+            </button>
+            <input type="text"
+                   data-ng-model="chatController.searchQuery.text"
+                   placeholder="Text filter"
+                   class="exl-input"/>
+            <input type="text"
+                   data-ng-model="chatController.searchQuery.user"
+                   placeholder="User name filter"
+                   class="exl-input"/>
+        </section>
+    </section>
+    <section class="exl-history" data-history-scroll data-messages="chatController.messagesHistory">
+        <section data-ng-repeat="message in chatController.messagesHistory | filter: chatController.searchQuery"
+                 data-ng-show="message.isVisible"
+                 class="exl-message row clearfix">
+            <message-item message="message"
+                          search-query="chatController.searchQuery">
+            </message-item>
+        </section>
+    </section>
+    <section class="row exl-message-box">
+        <section class="col-md-offset-1 col-md-1 col-xs-2">
+            <section>
+                <span class="glyphicon glyphicon-user exl-icon"></span>
+            </section>
+            <section>{{chatController.user.name}}</section>
+        </section>
+        <section class="col-md-9 col-xs-10">
+            <section class="row exl-autocomplete-wrapper">
+                <section class="col-xs-9">
+                    <div angucomplete-alt id="dictionary"
+                         placeholder="Type message" pause="100"
+                         selected-object="chatController.dictionary"
+                         local-data="chatController.dictionary"
+                         title-field="word" search-fields="word"
+                         minlength="1" input-class="exl-autocomplete-input"
+                         input-changed="chatController.autocompleteChanged"
+                         match-class="exl-highlighted">
+                    </div>
+                </section>
+                <section class="col-xs-3">
+                    <button data-ng-click="chatController.send(chatController.messageText, chatController.user.name, chatController.user.id)"
+                            class="exl-send-button">Send</button>
+                </section>
+            </section>
+        </section>
+    </section>
+</section>

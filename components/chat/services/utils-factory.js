@@ -1,11 +1,13 @@
-(function (ng) {
-    'use strict';
+'use strict';
 
-    function utilsFactory() {
+var ng = require('angular');
+
+ng.module('exl-chat')
+    .factory('utils', function utilsFactory() {
         var wordsRegexPattern = /\w+/g;
 
         function words(text) {
-            if(typeof text === 'string') {
+            if (typeof text === 'string') {
                 return text.match(wordsRegexPattern) || [];
             }
 
@@ -33,13 +35,16 @@
             return diffResult;
         }
 
+        function toFormat(arr) {
+            return Array.isArray(arr) ? arr.map(function (value) {
+                return {word: value};
+            }) : [];
+        }
+
         return {
             words: words,
             uniq: uniq,
-            diff: diff
+            diff: diff,
+            toFormat: toFormat
         };
-    }
-
-    ng.module('exl-chat')
-        .factory('utils', utilsFactory);
-})(angular);
+    });
