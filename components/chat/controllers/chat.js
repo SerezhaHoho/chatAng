@@ -3,7 +3,7 @@
 var ng = require('angular');
 
 ng.module('exl-chat')
-    .controller('ChatController', ['$scope', 'authService', 'chatService', 'wordsDictionary', 'utils', function ($scope, authService, chatService, wordsDictionary, _) {
+    .controller('ChatController', ['$scope', 'authService', 'chatService', 'serverChangeService', 'wordsDictionary', 'utils', function ($scope, authService, chatService, serverChangeService, wordsDictionary, _) {
         var self = this;
 
         self.messagesHistory = chatService.getMessages();
@@ -11,6 +11,12 @@ ng.module('exl-chat')
         self.user = authService.currentUser();
 
         self.dictionary = wordsDictionary;
+
+        self.serverValues = serverChangeService.getServerValues();
+
+        self.setServerValues = function (newToken, newUrl) {
+            serverChangeService.setServerValues(newToken, newUrl);
+        };
 
         self.send = function (message, user, id) {
             if (message) {

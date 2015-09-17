@@ -3,14 +3,14 @@
 var ng = require('angular');
 
 ng.module('exl-chat')
-    .service('chatService', ['$http', 'serverConstants', 'wordsDictionary', 'messageFactory', 'utils', function ($http, serverConstants, wordsDictionary, messageFactory, _) {
+    .service('chatService', ['$http', 'serverValues', 'wordsDictionary', 'messageFactory', 'utils', function ($http, serverValues, wordsDictionary, messageFactory, _) {
         var messages = [],
-            token = serverConstants.startToken;
+            token = serverValues.startToken;
 
         this.sendMessage = function (message, user, id) {
             var newMessage = messageFactory.createMessage(message, user, id);
 
-            $http.post(serverConstants.serverUrl, newMessage.toString(), {
+            $http.post(serverValues.serverUrl, newMessage.toString(), {
                 headers: {
                     'Content-Type': 'text/plain;charset=UTF-8'
                 }
@@ -29,7 +29,7 @@ ng.module('exl-chat')
 
         this.getMessages = function () {
 
-            $http.get(serverConstants.serverUrl, {
+            $http.get(serverValues.serverUrl, {
                 params: {
                     token: token
                 }

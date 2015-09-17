@@ -154,10 +154,14 @@ button:hover, button:focus, .exl-add-user-button:hover, .exl-add-user-button:foc
     box-shadow: 0 3px 20px 0 rgba(85, 85, 85, 0.15);
 }
 
-.exl-trash-icon {
+.exl-header-icon {
     border-radius: 50%;
     font-size: 1.7rem;
     padding: 14px 15px;
+}
+
+#filters, #serverValues {
+    margin-top: 10px;
 }
 
 /* History */
@@ -271,10 +275,6 @@ button:hover, button:focus, .exl-add-user-button:hover, .exl-add-user-button:foc
 
     .exl-send-button {
         padding: 5px 5px;
-    }
-
-    .exl-history {
-        padding: 180px 0 80px 0;
     }
 
     body, .exl-header, .exl-message-box {

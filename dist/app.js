@@ -39,9 +39,10 @@ ng.module('exl-chat', [
         })
     }]);
 
-require('./common/constants/constants.js');
 require('./auth/controllers/auth.js');
 require('./chat/controllers/chat.js');
+require('./common/services/server-values.js');
+require('./common/services/server-change.js');
 require('./auth/services/auth.js');
 require('./auth/services/user-factory.js');
 require('./chat/services/autocomplete-dictionary-value.js');
@@ -52,9 +53,8 @@ require('./chat/filters/highlight.js');
 require('./chat/directives/message.js');
 require('./chat/directives/possible-actions-menu.js');
 require('./chat/directives/history-scroll.js');
-
 }).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
-},{"./auth/controllers/auth.js":2,"./auth/services/auth.js":3,"./auth/services/user-factory.js":4,"./chat/controllers/chat.js":5,"./chat/directives/history-scroll.js":6,"./chat/directives/message.js":7,"./chat/directives/possible-actions-menu.js":8,"./chat/filters/highlight.js":9,"./chat/services/autocomplete-dictionary-value.js":10,"./chat/services/chat.js":11,"./chat/services/message-factory.js":12,"./chat/services/utils-factory.js":13,"./common/constants/constants.js":14}],2:[function(require,module,exports){
+},{"./auth/controllers/auth.js":2,"./auth/services/auth.js":3,"./auth/services/user-factory.js":4,"./chat/controllers/chat.js":5,"./chat/directives/history-scroll.js":6,"./chat/directives/message.js":7,"./chat/directives/possible-actions-menu.js":8,"./chat/filters/highlight.js":9,"./chat/services/autocomplete-dictionary-value.js":10,"./chat/services/chat.js":11,"./chat/services/message-factory.js":12,"./chat/services/utils-factory.js":13,"./common/services/server-change.js":14,"./common/services/server-values.js":15}],2:[function(require,module,exports){
 (function (global){
 'use strict';
 
@@ -121,7 +121,7 @@ ng.module('exl-chat')
 var ng = (typeof window !== "undefined" ? window['angular'] : typeof global !== "undefined" ? global['angular'] : null);
 
 ng.module('exl-chat')
-    .controller('ChatController', ['$scope', 'authService', 'chatService', 'wordsDictionary', 'utils', function ($scope, authService, chatService, wordsDictionary, _) {
+    .controller('ChatController', ['$scope', 'authService', 'chatService', 'serverChangeService', 'wordsDictionary', 'utils', function ($scope, authService, chatService, serverChangeService, wordsDictionary, _) {
         var self = this;
 
         self.messagesHistory = chatService.getMessages();
@@ -129,6 +129,12 @@ ng.module('exl-chat')
         self.user = authService.currentUser();
 
         self.dictionary = wordsDictionary;
+
+        self.serverValues = serverChangeService.getServerValues();
+
+        self.setServerValues = function (newToken, newUrl) {
+            serverChangeService.setServerValues(newToken, newUrl);
+        };
 
         self.send = function (message, user, id) {
             if (message) {
@@ -266,14 +272,14 @@ ng.module('exl-chat')
 var ng = (typeof window !== "undefined" ? window['angular'] : typeof global !== "undefined" ? global['angular'] : null);
 
 ng.module('exl-chat')
-    .service('chatService', ['$http', 'serverConstants', 'wordsDictionary', 'messageFactory', 'utils', function ($http, serverConstants, wordsDictionary, messageFactory, _) {
+    .service('chatService', ['$http', 'serverValues', 'wordsDictionary', 'messageFactory', 'utils', function ($http, serverValues, wordsDictionary, messageFactory, _) {
         var messages = [],
-            token = serverConstants.startToken;
+            token = serverValues.startToken;
 
         this.sendMessage = function (message, user, id) {
             var newMessage = messageFactory.createMessage(message, user, id);
 
-            $http.post(serverConstants.serverUrl, newMessage.toString(), {
+            $http.post(serverValues.serverUrl, newMessage.toString(), {
                 headers: {
                     'Content-Type': 'text/plain;charset=UTF-8'
                 }
@@ -292,7 +298,7 @@ ng.module('exl-chat')
 
         this.getMessages = function () {
 
-            $http.get(serverConstants.serverUrl, {
+            $http.get(serverValues.serverUrl, {
                 params: {
                     token: token
                 }
@@ -423,7 +429,30 @@ ng.module('exl-chat')
 var ng = (typeof window !== "undefined" ? window['angular'] : typeof global !== "undefined" ? global['angular'] : null);
 
 ng.module('exl-chat')
-    .constant('serverConstants', {
+    .service('serverChangeService', ['serverValues', function (serverValues) {
+        var self = this;
+
+        self.getServerValues = function () {
+            return {
+                serverToken: serverValues.startToken,
+                serverUrl: serverValues.serverUrl
+            }
+        };
+
+        self.setServerValues = function (newToken, newUrl) {
+            serverValues.startToken = newToken;
+            serverValues.serverUrl = newUrl
+        };
+    }]);
+}).call(this,typeof global !== "undefined" ? global : typeof self !== "undefined" ? self : typeof window !== "undefined" ? window : {})
+},{}],15:[function(require,module,exports){
+(function (global){
+'use strict';
+
+var ng = (typeof window !== "undefined" ? window['angular'] : typeof global !== "undefined" ? global['angular'] : null);
+
+ng.module('exl-chat')
+    .value('serverValues', {
         startToken: 'TE11EN',
         serverUrl: 'http://localhost:999/chat'
     });

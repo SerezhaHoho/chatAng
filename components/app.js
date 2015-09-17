@@ -37,9 +37,10 @@ ng.module('exl-chat', [
         })
     }]);
 
-require('./common/constants/constants.js');
 require('./auth/controllers/auth.js');
 require('./chat/controllers/chat.js');
+require('./common/services/server-values.js');
+require('./common/services/server-change.js');
 require('./auth/services/auth.js');
 require('./auth/services/user-factory.js');
 require('./chat/services/autocomplete-dictionary-value.js');
