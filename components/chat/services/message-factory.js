@@ -1,7 +1,9 @@
-(function (ng) {
-    'use strict';
+'use strict';
 
-    function messageFactory() {
+var ng = require('angular');
+
+ng.module('exl-chat')
+    .factory('messageFactory', function () {
 
         function Message(text, user, id) {
             this.text = text;
@@ -22,8 +24,4 @@
         return {
             createMessage: createMessage
         };
-    }
-
-    ng.module('exl-chat')
-        .factory('messageFactory', messageFactory);
-})(angular);
+    });

@@ -4,7 +4,7 @@
     src: url(../public/fonts/cocomat.light.ttf);
 }
 
-input, button {
+input, button, .exl-add-user-button {
     border: none;
     border-radius: 50px;
     font-size: 1.7rem;
@@ -25,13 +25,15 @@ input:focus {
     background: rgba(255, 255, 255, 1);
 }
 
-button {
+button, .exl-add-user-button {
     color: #ffffff;
     background: rgba(255, 168, 87, .8);
 }
 
-button:hover, button:focus {
+button:hover, button:focus, .exl-add-user-button:hover, .exl-add-user-button:focus {
     background: rgba(255, 168, 87, 1);
+    text-decoration: none;
+    color: #ffffff;
 }
 
 .exl-va-table {
@@ -46,10 +48,10 @@ button:hover, button:focus {
 }
 
 .exl-icon {
-    font-size: 3rem;
+    font-size: 2.2rem;
 }
 
-.exl-input {
+.exl-input, .exl-autocomplete-input {
     font-size: 1.7rem;
     padding: 5px 20px;
     border: 2px solid #c3c3c3;
@@ -70,11 +72,7 @@ button:hover, button:focus {
     right: 0;
     left: 0;
     background: url("../public/images/auth.jpg");
-    -webkit-animation: exl-animate-background 40s linear 0s infinite;
-    -moz-animation: exl-animate-background 40s linear 0s infinite;
-    -o-animation: exl-animate-background 40s linear 0s infinite;
-    animation: exl-animate-background 40s linear 0s infinite;
-    background-size: 100%;
+    background-size: cover;
     background-position: center center;
 }
 
@@ -83,7 +81,7 @@ button:hover, button:focus {
 }
 
 .exl-add-user-icon {
-    font-size: 5.5rem;
+    font-size: 4rem;
     color: #ffffff;
     border: 2px solid #ffffff;
     border-radius: 50%;
@@ -93,76 +91,15 @@ button:hover, button:focus {
     margin-right: auto;
 }
 
-.exl-add-user-icon .ion-ios-personadd {
+.exl-add-user-icon .glyphicon-user {
     width: 100%;
     height: 100%;
     display: table;
 }
 
-.exl-add-user-icon .ion-ios-personadd:before {
+.exl-add-user-icon .glyphicon-user:before {
     display: table-cell;
     vertical-align: middle;
-}
-
-/* Background animations */
-@-webkit-keyframes exl-animate-background {
-    25% {
-        background-size: 110%;
-    }
-    50% {
-        background-size: 120%;
-    }
-    75% {
-        background-size: 110%;
-    }
-    100% {
-        background-size: 100%;
-    }
-}
-
-@-moz-keyframes exl-animate-background {
-    25% {
-        background-size: 110%;
-    }
-    50% {
-        background-size: 120%;
-    }
-    75% {
-        background-size: 110%;
-    }
-    100% {
-        background-size: 100%;
-    }
-}
-
-@-o-keyframes exl-animate-background {
-    25% {
-        background-size: 110%;
-    }
-    50% {
-        background-size: 120%;
-    }
-    75% {
-        background-size: 110%;
-    }
-    100% {
-        background-size: 100%;
-    }
-}
-
-@keyframes exl-animate-background {
-    25% {
-        background-size: 110%;
-    }
-    50% {
-        background-size: 120%;
-    }
-    75% {
-        background-size: 110%;
-    }
-    100% {
-        background-size: 100%;
-    }
 }
 
 /* Message box */
@@ -182,6 +119,10 @@ button:hover, button:focus {
     box-shadow: 0 -3px 20px 0 rgba(85, 85, 85, 0.15);
 }
 
+.exl-autocomplete-input {
+    width: 100%;
+}
+
 .exl-send-button {
     width: 100%;
     text-align: center;
@@ -195,7 +136,7 @@ button:hover, button:focus {
 }
 
 .exl-autocomplete-wrapper {
-    margin-top: 15px;
+    margin-top: 8px;
 }
 
 /* Header */
@@ -213,9 +154,14 @@ button:hover, button:focus {
     box-shadow: 0 3px 20px 0 rgba(85, 85, 85, 0.15);
 }
 
-.exl-trash-icon {
+.exl-header-icon {
     border-radius: 50%;
-    font-size: 2rem;
+    font-size: 1.7rem;
+    padding: 14px 15px;
+}
+
+#filters, #serverValues {
+    margin-top: 10px;
 }
 
 /* History */
@@ -239,7 +185,8 @@ button:hover, button:focus {
 
 .exl-dropdown-button {
     border-radius: 50%;
-    font-size: 2.5rem;
+    font-size: 1.5rem;
+    padding: 10px 15px;
 }
 
 .exl-message-body {
@@ -278,7 +225,46 @@ button:hover, button:focus {
 
 /* Text highlight */
 .exl-highlighted {
-    background: #fffe00;
+    background: #FFA857;
+}
+
+/* Angucomplete */
+.angucomplete-holder {
+    position: relative;
+}
+
+.angucomplete-dropdown {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 38px;
+    font-size: 1.7rem;
+    border: 2px solid #c3c3c3;
+    width: 100%;
+    border-radius: 20px;
+    background-color: #fff;
+    overflow-y: auto;
+    max-height: 200px;
+}
+
+.angucomplete-row, .angucomplete-searching {
+    padding: 5px 20px;
+}
+
+.angucomplete-row:first-child {
+    border-top-right-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.angucomplete-row:last-child {
+    border-bottom-left-radius: 20px;
+    border-bottom-right-radius: 20px;
+}
+
+.angucomplete-row:hover {
+    background-color: #c3c3c3;
+    color: #ffffff;
+    width: 100%;
 }
 
 @media only screen and (max-width : 992px) {
@@ -291,20 +277,11 @@ button:hover, button:focus {
         padding: 5px 5px;
     }
 
-    .exl-history {
-        padding: 180px 0 80px 0;
-    }
-
     body, .exl-header, .exl-message-box {
         padding: 10px 15px;
     }
 
     .exl-auth-form {
-        -webkit-animation: none;
-        -moz-animation: none;
-        -o-animation: none;
-        animation: none;
-        background-size: cover;
         background-position: center right;
     }
 }

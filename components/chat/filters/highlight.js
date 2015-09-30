@@ -1,7 +1,9 @@
-(function (ng) {
-    'use strict';
+'use strict';
 
-    function wordsFilter($sce) {
+var ng = require('angular');
+
+ng.module('exl-chat')
+    .filter('highlighter', function ($sce) {
 
         return function (text, phrase) {
             if (phrase) {
@@ -11,8 +13,4 @@
 
             return $sce.trustAsHtml(text);
         }
-    }
-
-    ng.module('exl-chat')
-        .filter('highlighter', wordsFilter);
-})(angular);
+    });
